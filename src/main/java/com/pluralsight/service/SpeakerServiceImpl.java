@@ -6,11 +6,13 @@ import com.pluralsight.repository.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service("speakerService")
 public class SpeakerServiceImpl implements SpeakerService {
 
+    @Autowired
     private SpeakerRepository speakerRepository = new HibernateSpeakerRepositoryImpl();
 
     public SpeakerServiceImpl() {
@@ -22,6 +24,15 @@ public class SpeakerServiceImpl implements SpeakerService {
         System.out.println("SpeakerServiceImpl args constructor");
         this.speakerRepository = speakerRepository;
     }
+
+    /**
+     * Example of bean postprocessor
+     */
+    @PostConstruct
+    private void initialize(){
+        System.out.println("Called after constructors");
+    }
+
     @Override
     public List<Speaker> findAll() {
         return speakerRepository.findAll();
